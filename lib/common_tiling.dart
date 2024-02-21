@@ -15,7 +15,6 @@ class common_tile extends StatelessWidget {
         decoration: BoxDecoration(
           color: const Color.fromARGB(255, 230, 230, 230),
           borderRadius: BorderRadius.circular(20),
-          // border: Border.all(color: const Color.fromARGB(255, 59, 58, 58)),
           boxShadow: const [
             BoxShadow(
                 offset: Offset(5, 5),
