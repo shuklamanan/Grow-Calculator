@@ -2,6 +2,7 @@ import 'dart:ffi';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:percent_indicator/circular_percent_indicator.dart';
 
 class SIPCALC extends StatefulWidget {
   @override
@@ -100,6 +101,7 @@ class _SIPCALCState extends State<SIPCALC> {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
+      scrollDirection: Axis.vertical,
       child: Column(
         children: [
           TextFormField(
@@ -115,7 +117,7 @@ class _SIPCALCState extends State<SIPCALC> {
             keyboardType: TextInputType.number,
           ),
           const SizedBox(
-            height: 25,
+            height: 20,
           ),
           TextFormField(
             controller: ctrl2,
@@ -130,7 +132,7 @@ class _SIPCALCState extends State<SIPCALC> {
             keyboardType: TextInputType.number,
           ),
           const SizedBox(
-            height: 25,
+            height: 20,
           ),
           TextFormField(
             controller: ctrl3,
@@ -145,29 +147,62 @@ class _SIPCALCState extends State<SIPCALC> {
             keyboardType: TextInputType.number,
           ),
           // f(ctrl1,ctrl2,ctrl3),
-          SizedBox(
-            height: 25,
+          const SizedBox(
+            height: 15,
           ),
           ElevatedButton(
               onPressed: () {
                 setState(() {
                   bool ans = f(ctrl1, ctrl2, ctrl3);
+                  print((double.parse(ctrl1.text.toString()) *
+                      double.parse(ctrl3.text.toString()) *
+                      12));
+                  print(m -
+                      (double.parse(ctrl1.text.toString()) *
+                          double.parse(ctrl3.text.toString()) *
+                          12));
                 });
               },
-              child: Text(
+              child: const Text(
                 'Calculate',
               )),
-          Padding(
-            padding: const EdgeInsets.only(top: 40.0),
-            child: Center(
-              child: Container(
-                child: Text(
-                  '${m.toStringAsFixed(2)}',
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
-                ),
+          const SizedBox(
+            height: 35,
+          ),
+          Container(
+            width: 200,
+            height: 200,
+            child: CircularPercentIndicator(
+              radius: 100,
+              lineWidth: 30,
+              percent: (m > 0)
+                  ? ((double.parse(ctrl1.text.toString()) *
+                              double.parse(ctrl3.text.toString()) *
+                              12) >
+                          (m -
+                              (double.parse(ctrl1.text.toString()) *
+                                  double.parse(ctrl3.text.toString()) *
+                                  12)))
+                      ? ((m -
+                              (double.parse(ctrl1.text.toString()) *
+                                  double.parse(ctrl3.text.toString()) *
+                                  12)) /
+                          m)
+                      : ((m -
+                              (double.parse(ctrl1.text.toString()) *
+                                  double.parse(ctrl3.text.toString()) *
+                                  12)) /
+                          m)
+                  : 0,
+              progressColor: Colors.grey[500],
+              circularStrokeCap: CircularStrokeCap.round,
+              center: Text(
+                '${m.toStringAsFixed(2)}',
+                style:
+                    const TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
               ),
             ),
-          )
+          ),
         ],
       ),
     );
